@@ -6,7 +6,8 @@ const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 const Unauthorized = require('../errors/Unauthorized');
 
-const SECRET_KEY = 'top-secret-key';
+const { SECRET_KEY } = require('../config');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getPersonalData = (req, res, next) => {
@@ -79,4 +80,12 @@ module.exports.login = (req, res, next) => {
         .send({ token });
     })
     .catch((err) => next(err));
+};
+
+module.exports.logout = (req, res) => {
+  res
+    .clearCookie('jwt', {
+      httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true,
+    })
+    .send({ message: 'куки удалены' });
 };
