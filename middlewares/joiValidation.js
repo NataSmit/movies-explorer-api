@@ -27,3 +27,19 @@ module.exports.movieIdValidation = celebrate({
     id: Joi.string().hex().length(24),
   }),
 });
+
+module.exports.movieCreationValidation = celebrate({
+  body: Joi.object().keys({
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required(),
+    trailerLink: Joi.string().required(),
+    thumbnail: Joi.string().required(),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+  }),
+});
