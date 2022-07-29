@@ -5,7 +5,12 @@ const ForbiddenError = require('../errors/ForbiddenError');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    .then((films) => res.send(films))
+    .then((films) => {
+      if (films.length === 0) {
+        res.send({ message: 'У Вас нет сохраненных фильмов' });
+      }
+      res.send(films);
+    })
     .catch((err) => next(err));
 };
 
