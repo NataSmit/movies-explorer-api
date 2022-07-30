@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     return new Unauthorized('Пользователь не авторизован');
   }
   const token = req.cookies.jwt;
-  let payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY);
+  let payload;
 
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY);

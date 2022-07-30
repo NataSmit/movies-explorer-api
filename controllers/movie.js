@@ -8,8 +8,9 @@ module.exports.getMovies = (req, res, next) => {
     .then((films) => {
       if (films.length === 0) {
         res.send({ message: 'У Вас нет сохраненных фильмов' });
+      } else {
+        res.send(films);
       }
-      res.send(films);
     })
     .catch((err) => next(err));
 };

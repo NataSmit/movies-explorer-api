@@ -1,4 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
+const { linkRegexValidator } = require('../regex/linkValidation');
 
 module.exports.userCreationValidation = celebrate({
   body: Joi.object().keys({
@@ -35,9 +36,9 @@ module.exports.movieCreationValidation = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required(),
-    trailerLink: Joi.string().required(),
-    thumbnail: Joi.string().required(),
+    image: Joi.string().required().pattern(linkRegexValidator),
+    trailerLink: Joi.string().required().pattern(linkRegexValidator),
+    thumbnail: Joi.string().required().pattern(linkRegexValidator),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
