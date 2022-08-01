@@ -4,9 +4,6 @@
       "ecmaVersion": "latest"
   },
   "rules": {
-    "no-underscore-dangle": ["error",{"allow":["_id"]}],
-    "no-unused-vars": "off",
-    "no-console": "off",
-    "consistent-return": "off"
+    "no-underscore-dangle": ["error",{"allow":["_id"]}]
   }
 }

@@ -6,7 +6,7 @@ const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
 const Unauthorized = require('../errors/Unauthorized');
 
-const { SECRET_KEY } = require('../config');
+const { SECRET_KEY, errorMessage, info } = require('../utils/config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -26,9 +26,11 @@ module.exports.updateUser = (req, res, next) => {
     .then((updatedUser) => res.send(updatedUser))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new NotFoundError('Запрашиваемый пользователь не найден'));
+        next(new NotFoundError(errorMessage.userNotFound));
       } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении пользователя'));
+        next(new BadRequestError(errorMessage.dataNotCorrectByUpdate));
+      } else if (err.code === 11000) {
+        next(new ConflictError(errorMessage.emailExists));
       } else {
         next(err);
       }
@@ -42,9 +44,9 @@ module.exports.createUser = (req, res, next) => {
     .then(() => res.status(201).send({ email, name }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+        next(new BadRequestError(errorMessage.dataNotCorrectByCreation));
       } else if (err.code === 11000) {
-        next(new ConflictError('Указанный email уже зарегистрирован'));
+        next(new ConflictError(errorMessage.emailExists));
       } else {
         next(err);
       }
@@ -57,12 +59,12 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return next(new Unauthorized('Неправильные почта или пароль'));
+        return next(new Unauthorized(errorMessage.loginInfoNotCorrect));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return next(new Unauthorized('Неправильные почта или пароль'));
+            return next(new Unauthorized(errorMessage.loginInfoNotCorrect));
           }
           return user;
         });
@@ -87,5 +89,5 @@ module.exports.logout = (req, res) => {
     .clearCookie('jwt', {
       httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true,
     })
-    .send({ message: 'куки удалены' });
+    .send({ message: info.cookiesRemoved });
 };

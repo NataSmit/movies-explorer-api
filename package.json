@@ -1,7 +1,7 @@
 {
   "name": "movies-explorer-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "api cервиса, в котором можно найти фильмы по запросу и сохранить в личном кабинете",
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint .",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/NataSmit/movies-explorer-api.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Natalia Gorobtsova",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/NataSmit/movies-explorer-api/issues"

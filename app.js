@@ -7,9 +7,8 @@ const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const { limiter } = require('./rateLimiter');
 const router = require('./routes/index');
-const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { MONGO_URL } = require('./config');
+const { MONGO_URL } = require('./utils/config');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -25,10 +24,6 @@ mongoose.connect(MONGO_URL, {
 app.use(requestLogger);
 app.use(limiter);
 app.use(router);
-
-app.use((req, res, next) => {
-  next(new NotFoundError('Путь не найден'));
-});
 
 app.use(errorLogger);
 
