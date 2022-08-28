@@ -6,10 +6,12 @@ const { SECRET_KEY } = require('../utils/config');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
+
   if (!req.cookies) {
     return new Unauthorized('Пользователь не авторизован');
   }
   const token = req.cookies.jwt;
+
   let payload;
 
   try {
@@ -19,6 +21,7 @@ module.exports = (req, res, next) => {
   }
 
   req.user = payload;
+  
 
   next();
 };

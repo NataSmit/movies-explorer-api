@@ -12,7 +12,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getPersonalData = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => res.send({ email: user.email, name: user.name }))
+    .then((user) => res.send({ email: user.email, name: user.name, id: user._id }))
     .catch((err) => next(err));
 };
 
@@ -70,6 +70,7 @@ module.exports.login = (req, res, next) => {
         });
     })
     .then((user) => {
+      console.log(user)
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY,
