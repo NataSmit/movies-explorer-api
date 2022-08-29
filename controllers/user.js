@@ -70,7 +70,6 @@ module.exports.login = (req, res, next) => {
         });
     })
     .then((user) => {
-      console.log(user)
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY,
@@ -78,7 +77,7 @@ module.exports.login = (req, res, next) => {
       );
       res
         .cookie('jwt', token, {
-          httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true,
+          httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true,
         })
         .send({ token });
     })
@@ -88,7 +87,7 @@ module.exports.login = (req, res, next) => {
 module.exports.logout = (req, res) => {
   res
     .clearCookie('jwt', {
-      httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: true,
+      httpOnly: true, maxAge: 3600000 * 24 * 7, sameSite: 'none', secure: true,
     })
     .send({ message: info.cookiesRemoved });
 };
