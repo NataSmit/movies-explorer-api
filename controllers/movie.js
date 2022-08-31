@@ -10,7 +10,7 @@ module.exports.getMovies = (req, res, next) => {
       if (films.length === 0) {
         res.send({ message: info.noSavedFilms });
       } else {
-        res.send(films);
+        res.send(films.filter((film) => film.owner.toString() === req.user._id));
       }
     })
     .catch((err) => next(err));
