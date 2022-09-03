@@ -8,7 +8,7 @@ module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .then((films) => {
       if (films.length === 0) {
-        res.send({ message: info.noSavedFilms });
+        res.send([]);
       } else {
         res.send(films.filter((film) => film.owner.toString() === req.user._id));
       }
