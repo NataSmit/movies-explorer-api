@@ -31,9 +31,15 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-mongoose.connect(MONGO_URL, {
+//mongoose.connect(MONGO_URL, {     // для подключения в вирт. машине yandex cloud
+//  useNewUrlParser: true,
+//});
+
+mongoose.connect(MONGO_URL, {     // для heroku MONGO_URL changed to MONGO_URL_ONLINE!!!
   useNewUrlParser: true,
-});
+})
+  .then((res) => console.log('Connected to DB'))
+  .catch((err) => console.log(err))
 
 app.use(requestLogger);
 app.use(limiter);
