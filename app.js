@@ -19,6 +19,8 @@ const options = {
     'http://api.movie.service.nomoredomains.xyz',
     'https://api.movie.service.nomoredomains.xyz',
     'https://github.com/NataSmit',
+    'https://movies-explorer-api-n8cn.onrender.com',
+    'https://movies-explorer-lzia.onrender.com',
   ],
   credentials: true, // эта опция позволяет устанавливать куки
 };
@@ -31,15 +33,15 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//mongoose.connect(MONGO_URL, {     // для подключения в вирт. машине yandex cloud
+// mongoose.connect(MONGO_URL, {     // для подключения в вирт. машине yandex cloud
 //  useNewUrlParser: true,
-//});
+// });
 
-mongoose.connect(MONGO_URL, {     // для heroku MONGO_URL changed to MONGO_URL_ONLINE!!!
+mongoose.connect(MONGO_URL, { // для heroku MONGO_URL changed to MONGO_URL_ONLINE!!!
   useNewUrlParser: true,
 })
   .then((res) => console.log('Connected to DB'))
-  .catch((err) => console.log(err))
+  .catch((err) => console.log(err));
 
 app.use(requestLogger);
 app.use(limiter);
