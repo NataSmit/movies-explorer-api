@@ -7,7 +7,7 @@ const { userCreationValidation, loginValidation } = require('../middlewares/joiV
 const NotFoundError = require('../errors/NotFoundError');
 const { info } = require('../utils/config');
 
-router.post('/signup', userCreationValidation, createUser);
+router.post('/signup', createUser);
 router.post('/signin', loginValidation, login);
 
 router.use(auth);
