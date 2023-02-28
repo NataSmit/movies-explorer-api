@@ -34,15 +34,15 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// mongoose.connect(MONGO_URL, {  // для подключения в вирт. машине yandex cloud
-//  useNewUrlParser: true,
-// });
-
-mongoose.connect(MONGO_URL, { // для render MONGO_URL changed to MONGO_URL_ONLINE!!!
+mongoose.connect(MONGO_URL, {  // для подключения в вирт. машине yandex cloud
   useNewUrlParser: true,
-})
-  .then((res) => console.log('Connected to DB'))
-  .catch((err) => console.log(err));
+});
+
+//mongoose.connect(MONGO_URL, { // для render MONGO_URL changed to MONGO_URL_ONLINE!!!
+//  useNewUrlParser: true,
+//})
+//  .then((res) => console.log('Connected to DB'))
+//  .catch((err) => console.log(err));
 
 app.use(requestLogger);
 app.use(limiter);
@@ -55,7 +55,6 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  console.log('err', err)
   const message = statusCode === 500 ? 'На сервере произошла ошибка' : err.message;
   res.status(statusCode).send({ message });
 });
